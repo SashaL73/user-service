@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        log.info("Создание пользователя: {}", user);
+        log.info("Создание пользователя: {}, {}, {}", user.getName(), user.getEmail(), user.getAge());
         validateUser(user);
         User savedUser = userDao.save(user);
         log.info("Пользователь создан: {}", savedUser);
