@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserServiceImplTest {
 
@@ -33,6 +33,10 @@ public class UserServiceImplTest {
         when(userDao.save(user)).thenReturn(user);
 
         User savedUser = userService.saveUser(user);
+
+        verify(userDao, times(1))
+                .save(user);
+
         assertEquals("Test", savedUser.getName());
     }
 
@@ -48,6 +52,7 @@ public class UserServiceImplTest {
         });
 
         assertEquals("Имя не должно быть пустым", exception.getMessage());
+        verify(userDao, never()).save(any());
 
     }
 
@@ -63,6 +68,7 @@ public class UserServiceImplTest {
         });
 
         assertEquals("Email не должен быть пустым", exception.getMessage());
+        verify(userDao, never()).save(any());
 
     }
 
@@ -78,6 +84,7 @@ public class UserServiceImplTest {
         });
 
         assertEquals("Возраст должен быть больше или равен 0", exception.getMessage());
+        verify(userDao, never()).save(any());
 
     }
 
@@ -96,6 +103,9 @@ public class UserServiceImplTest {
         User savedUser = userService.saveUser(user);
 
         User findUser = userService.getUserById(1L);
+
+        verify(userDao, times(1))
+                .findById(1L);
 
         assertEquals(savedUser.getName(), findUser.getName());
     }
@@ -120,6 +130,9 @@ public class UserServiceImplTest {
 
         List<User> users = userService.findAllUsers();
 
+        verify(userDao, times(1))
+                .findAll();
+
         assertEquals(2, users.size());
 
     }
@@ -136,6 +149,9 @@ public class UserServiceImplTest {
 
         User updatedUser = userService.updateUser(user);
 
+        verify(userDao, times(1))
+                .update(user);
+
         assertEquals(user.getName(), updatedUser.getName());
     }
 
@@ -143,5 +159,8 @@ public class UserServiceImplTest {
     void testDeleteUser() {
         Long id = 1L;
         userService.deleteUser(id);
+
+        verify(userDao,times(1))
+                .delete(1L);
     }
 }
