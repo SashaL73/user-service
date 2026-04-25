@@ -27,14 +27,6 @@ public class UserDaoImplTest {
     private static SessionFactory sessionFactory;
     private UserDao userDao;
 
-    private static User createUser() {
-        User user = new User();
-        user.setName("Test");
-        user.setEmail("test@test.com");
-        user.setAge(20);
-        return user;
-    }
-
     @BeforeAll
     static void beforeAll() {
         sessionFactory = TestHibernateConfig.buildSessionFactory(
